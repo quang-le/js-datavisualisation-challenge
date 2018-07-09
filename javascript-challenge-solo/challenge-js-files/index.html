@@ -2162,6 +2162,18 @@
     <!--END PAGE-->
   </div>
   <script>
+    //DOM insertion
+    let tab1=document.createElement("DIV");
+    let tab2=document.createElement("DIV");
+    document.getElementById("Crimes_et_d.C3.A9lits_enregistr.C3.A9s_par_les_services_de_police").appendChild(tab1);
+    document.getElementById("Homicides").appendChild(tab2);
+    let testPosition=document.createTextNode("test div position");
+    let testPosition2=document.createTextNode("test div position");
+    tab1.appendChild(testPosition);
+    tab2.appendChild(testPosition2);
+
+
+    //AJAX request
     function makeAjaxCall (methodtype, url){
     var promiseObj=new Promise(function(resolve,reject){
         
@@ -2191,13 +2203,11 @@
     });
     return promiseObj;
 };
-
 createTab=(data)=> {console.log(data)}
 errorHandler=(error)=>{
     console.log("failed with "+error);
 }
 makeAjaxCall('GET','https://canvasjs.com/services/data/datapoints.php').then(createTab, errorHandler);
-
   </script>
 </body>
 

@@ -22,7 +22,7 @@ Before the end of the week:
 * Determine benchmark for either task (minimum to achieve and best case result) - OK 09/07/2018, 10:47
 * Code the AJAX request, with minimum formatting - Done 09/07/2018, 11:00. Server problem pending coach's side.
 * Find place in the DOM to insert the graphs - OK 09/07/2018, 09:30 (during review)
-* If possible at this stage, make basic DOM insertion
+* If possible at this stage, make basic DOM insertion - OK 09/07/2018, 11:50: inserted text.
 * Choose between Dimple and D3
 * Learn to use the library
 * Create branch for low-tier result
@@ -33,5 +33,5 @@ Before the end of the week:
 3. Determine 2 tiers of expected results
 
 X. Log 
-09/07/2018: create AJAX request: html error 0. Request blocked server side. Leave it a tthat for now. The script seems to work properly though.
+09/07/2018: create AJAX request: html error 0. Request blocked server side. Leave it a tthat for now. The script seems to work properly though. Error identification process: console logged the request lauching, then an error message, then the other steps of the request (reached state 4, then failed then logged html error 0)
 
