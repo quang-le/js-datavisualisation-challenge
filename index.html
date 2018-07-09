@@ -2244,15 +2244,15 @@
     console.log($("#table1").children("tbody").children("tr").eq(1).children("td").eq(1).text());//Selector model for data
     
    
-    for (i=2;i<12;i++){
-      for(j=1;j<38;j++){
-        for (k=1;k<12;k++){
+    for (i=2;i<13;i++){
+      for(j=1;j<36;j++){
+        
           let newObj={};
           newObj["date"]=$("#table1").children("tbody").children("tr").children("th").eq(i).text();
-          newObj[$("#table1").children("tbody").children("tr").eq(j).children("td").eq(0).text()]=$("#table1").children("tbody").children("tr").eq(1).children("td").eq(k).text()
+          newObj[$("#table1").children("tbody").children("tr").eq(j).children("td").eq(0).text()]=$("#table1").children("tbody").children("tr").eq(j).children("td").eq(i-1).text()
           criminalite.push(newObj);
           console.log(newObj);
-        }
+        
       }
     }
     console.log(criminalite);
