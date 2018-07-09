@@ -2161,18 +2161,43 @@
 
     <!--END PAGE-->
   </div>
+  <!--Add Dimple/D3-->
+  <script src="./assets/d3/d3.js"></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
   <script>
     //DOM insertion
     let tab1=document.createElement("DIV");
     let tab2=document.createElement("DIV");
+    let script1=document.createElement("SCRIPT");
+    let script2=document.createElement("SCRIPT");
     document.getElementById("Crimes_et_d.C3.A9lits_enregistr.C3.A9s_par_les_services_de_police").appendChild(tab1);
     document.getElementById("Homicides").appendChild(tab2);
-    let testPosition=document.createTextNode("test div position");
-    let testPosition2=document.createTextNode("test div position");
-    tab1.appendChild(testPosition);
-    tab2.appendChild(testPosition2);
+    tab1.setAttribute("id","chartContainer1");
+    tab1.appendChild(script1);
+    tab2.appendChild(script2);
 
-
+    //HTML chart 1
+    let chart1=function(){
+   
+      var svg = dimple.newSvg("#chartContainer1", 590, 400);
+      d3.tsv("/data/example_data.tsv", function (data) {
+      data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+      var myChart = new dimple.chart(svg, data);
+      myChart.setBounds(60, 30, 505, 305);
+      var x = myChart.addCategoryAxis("x", "Month");
+      x.addOrderRule("Date");
+      myChart.addMeasureAxis("y", "Unit Sales");
+      myChart.addSeries("Channel", dimple.plot.line);
+      myChart.addLegend(60, 10, 500, 20, "right");
+      myChart.draw();
+      })
+      }
+      
+      
+      console.log(chart1());
+     
+      script1.innerHTML=chart1();
+   
     //AJAX request
     function makeAjaxCall (methodtype, url){
     var promiseObj=new Promise(function(resolve,reject){
@@ -2207,7 +2232,7 @@ createTab=(data)=> {console.log(data)}
 errorHandler=(error)=>{
     console.log("failed with "+error);
 }
-makeAjaxCall('GET','https://canvasjs.com/services/data/datapoints.php').then(createTab, errorHandler);
+makeAjaxCall('GET','https://inside.becode.org/api/v1/data/random.json').then(createTab, errorHandler);
   </script>
 </body>
 
