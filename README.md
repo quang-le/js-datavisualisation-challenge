@@ -23,7 +23,7 @@ Before the end of the week:
 * Code the AJAX request, with minimum formatting - Done 09/07/2018, 11:00. Server problem pending coach's side.
 * Find place in the DOM to insert the graphs - OK 09/07/2018, 09:30 (during review)
 * If possible at this stage, make basic DOM insertion - OK 09/07/2018, 11:50: inserted text. 
-* Choose between Dimple and D3
+* Choose between Dimple and D3 
 * Learn to use the library
 * Create branch for low-tier result
 * Implement low-tier result
@@ -42,4 +42,5 @@ X. Log
 - 16:30: installed jQuery and used selectors to find a (legible) way to target the data to be looped through
 - 17:30: fixed the loop that creates the array containing the data in the html
 - 17:35: Dimple seems to create the same problems as working with a css template. Might as well work directly in d3. 
+- 18:20: made the graph work with Dimple. The data in html needed to be modified, so that the comma in the numbers is replaced by a dot, in order to be able to `parseFloat` the data. Remaining bugs: no grapgh generated for countries with incomplete data sets (France, Ireland), need to crop the names of countries with footnote reference (eg: Turkey).
 

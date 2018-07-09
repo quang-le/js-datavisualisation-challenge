@@ -2181,13 +2181,15 @@
     let criminalite= []; 
     for (i=2;i<13;i++){
       for(j=1;j<36;j++){
-        
-          let newObj={};
-          newObj["date"]=$("#table1").children("tbody").children("tr").children("th").eq(i).text();
-          newObj["pays"]=[$("#table1").children("tbody").children("tr").eq(j).children("td").eq(0).text()]
-          newObj["crimes"]=$("#table1").children("tbody").children("tr").eq(j).children("td").eq(i-1).text()
-          criminalite.push(newObj);
-          console.log(newObj);
+        let crimes=$("#table1").children("tbody").children("tr").eq(j).children("td").eq(i-1).text();
+        crimes=crimes.replace(",",".");
+      
+        let newObj={};
+        newObj["date"]=$("#table1").children("tbody").children("tr").children("th").eq(i).text();
+        newObj["pays"]=$("#table1").children("tbody").children("tr").eq(j).children("td").eq(0).text();
+        newObj["crimes"]=parseFloat(crimes);
+        criminalite.push(newObj);
+        console.log(newObj);
         
       }
     }
@@ -2200,13 +2202,13 @@
    
       var svg = dimple.newSvg("#chartContainer1", 590, 400);
       
-      let data = dimple.filterData(criminalite, "pays", ["Belgique", "Turquie"])
+      let data = dimple.filterData(criminalite, "pays", ["Belgique", "Allemagne", "Turquie","Luxembourg"])
       var myChart = new dimple.chart(svg, data);
       myChart.setBounds(60, 30, 505, 305);
-      var x = myChart.addCategoryAxis("x", "Année");
-      x.addOrderRule("Date");
-      myChart.addMeasureAxis("y", "Infractions");
-      myChart.addSeries("Pays", dimple.plot.line);
+      var x = myChart.addCategoryAxis("x", "date");
+      x.addOrderRule("date");
+      myChart.addMeasureAxis("y", "crimes");
+      myChart.addSeries("pays", dimple.plot.line);
       myChart.addLegend(60, 10, 500, 20, "right");
       myChart.draw();
       }
@@ -2251,7 +2253,7 @@
 
     //console.log($("#table1").children("tbody").children("tr").children("th").eq(2).text()); // selector model for dates
     //console.log($("#table1").children("tbody").children("tr").eq(1).children("td").eq(0).text());//Selector model for countries
-    //console.log($("#table1").children("tbody").children("tr").eq(1).children("td").eq(1).text());//Selector model for data
+    console.log(parseFloat($("#table1").children("tbody").children("tr").eq(1).children("td").eq(1).text()));//Selector model for data
     
    
 
