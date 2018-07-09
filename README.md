@@ -22,7 +22,7 @@ Before the end of the week:
 * Determine benchmark for either task (minimum to achieve and best case result) - OK 09/07/2018, 10:47
 * Code the AJAX request, with minimum formatting - Done 09/07/2018, 11:00. Server problem pending coach's side.
 * Find place in the DOM to insert the graphs - OK 09/07/2018, 09:30 (during review)
-* If possible at this stage, make basic DOM insertion - OK 09/07/2018, 11:50: inserted text.
+* If possible at this stage, make basic DOM insertion - OK 09/07/2018, 11:50: inserted text. 
 * Choose between Dimple and D3
 * Learn to use the library
 * Create branch for low-tier result
@@ -33,5 +33,11 @@ Before the end of the week:
 3. Determine 2 tiers of expected results
 
 X. Log 
-09/07/2018: create AJAX request: html error 0. Request blocked server side. Leave it a tthat for now. The script seems to work properly though. Error identification process: console logged the request lauching, then an error message, then the other steps of the request (reached state 4, then failed then logged html error 0)
+09/07/2018: 
+- create AJAX request: html error 0. Request blocked server side. Leave it a that for now. The script seems to work properly though. Error identification process: console logged the request lauching, then an error message, then the other steps of the request (reached state 4, then failed then logged html error 0)
+- 14:00: put the page on github page as the console logged many errors saying http or https protocol was required. Moving the stable version of the project to the dev branch.
+- 14:30: manage to change inner HTML at the right place but dimple doesn't seem to work as intended; Then again I just copied and pasted the example. Time to dive deeper in the library. 
+- 15:00: checked the AJAX request with the new url provided.It works.
+- 15:30: figured out the example used a .tsv file but an array of object could be used instead
+- 16:30: installed jQuery and used selectors to find a (legible) way to target the data to be looped through
 

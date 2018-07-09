@@ -2,7 +2,8 @@
 <meta charset="utf-8">
 <html>
 <div id="chartContainer">
-  {scriptDependencies}
+  <script src="./javascript-challenge-solo/challenge-js-files/assets/d3/d3.js"></script>
+  <script src="./javascript-challenge-solo/challenge-js-files/assets/dimple/dimple.v2.3.0.js"></script>
   <script type="text/javascript">
     var svg = dimple.newSvg("#chartContainer", 590, 400);
     d3.tsv("/data/example_data.tsv", function (data) {
