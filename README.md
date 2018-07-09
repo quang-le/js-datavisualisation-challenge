@@ -42,5 +42,6 @@ X. Log
 - 16:30: installed jQuery and used selectors to find a (legible) way to target the data to be looped through
 - 17:30: fixed the loop that creates the array containing the data in the html
 - 17:35: Dimple seems to create the same problems as working with a css template. Might as well work directly in d3. 
-- 18:20: made the graph work with Dimple. The data in html needed to be modified, so that the comma in the numbers is replaced by a dot, in order to be able to `parseFloat` the data. Remaining bugs: no grapgh generated for countries with incomplete data sets (France, Ireland), need to crop the names of countries with footnote reference (eg: Turkey).
+- 18:20: made the graph work with Dimple. The data in html needed to be modified, so that the comma in the numbers is replaced by a dot, in order to be able to `parseFloat` the data. Remaining bugs: no grapgh generated for countries with incomplete data sets (France, Ireland), need to crop the names of countries with footnote reference (eg: Turkey). Also: a readable unit scale is needed for y-axis.
+
 
