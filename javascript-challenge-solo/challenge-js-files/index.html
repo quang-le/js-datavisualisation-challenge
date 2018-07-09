@@ -2161,6 +2161,44 @@
 
     <!--END PAGE-->
   </div>
+  <script>
+    function makeAjaxCall (methodtype, url){
+    var promiseObj=new Promise(function(resolve,reject){
+        
+        let xhr=new XMLHttpRequest;
+        xhr.open(methodtype,url,true);
+        xhr.send();
+   
+        xhr.onreadystatechange=function(){
+            if (xhr.readyState===4){                  //checks the state of the request. 4 means its been treated
+                console.log('State is 4');                
+                if (xhr.status===200){                // checks the status. 200 means OK (as opposed to 404).
+                    var resp=xhr.responseText;        // store the response in a var  
+                    var respJSON=JSON.parse(resp);     // convert the text response into JSON
+                    console.log(xhr.responseText);  
+                    resolve(respJSON);                 // the JSON converted response will be called if the promise resolves 
+                }
+                else {
+                    console.log("status failure")
+                    reject(xhr.status);                // the status will be called if the promise is rejected
+                }
+                
+            }
+            else {
+                console.log("xhr processing going on");      // if readystate !=4 it means the request isn't done processing. The promise can't be resolved or rejected yet.
+            }
+        }
+    });
+    return promiseObj;
+};
+
+createTab=(data)=> {console.log(data)}
+errorHandler=(error)=>{
+    console.log("failed with "+error);
+}
+makeAjaxCall('GET','https://canvasjs.com/services/data/datapoints.php').then(createTab, errorHandler);
+
+  </script>
 </body>
 
 </html>

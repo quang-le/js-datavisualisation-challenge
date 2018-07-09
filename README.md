@@ -18,8 +18,8 @@ Before the end of the week:
     - Insert a table using data fetched through an AJAx request with an update every second.
     [Full instructions in French](https://github.com/becodeorg/lovelace-2/tree/master/Projects/javascript-challenge-solo)
 
-2. Planning ()
-* Determine benchmark for either task (minimum to achieve and best case result)
+2. Planning
+* Determine benchmark for either task (minimum to achieve and best case result) - OK 09/07/2018, 10:47
 * Code the AJAX request, with minimum formatting
 * Find place in the DOM to insert the graphs
 * If possible at this stage, make basic DOM insertion
@@ -29,5 +29,6 @@ Before the end of the week:
 * Implement low-tier result
 * If time allows it: repeat with high-tier result.
 
-3. Implementation
+3. Determine 2 tiers of expected results
+
 
