@@ -40,4 +40,6 @@ X. Log
 - 15:00: checked the AJAX request with the new url provided.It works.
 - 15:30: figured out the example used a .tsv file but an array of object could be used instead
 - 16:30: installed jQuery and used selectors to find a (legible) way to target the data to be looped through
+- 17:30: fixed the loop that creates the array containing the data in the html
+- 17:35: Dimple seems to create the same problems as working with a css template. Might as well work directly in d3. 
 

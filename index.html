@@ -2177,7 +2177,21 @@
     tab1.appendChild(script1);
     tab2.appendChild(script2);
 
-    let criminalite= []; //Array of objects to store data set 1
+    //Array of objects to store data set 1
+    let criminalite= []; 
+    for (i=2;i<13;i++){
+      for(j=1;j<36;j++){
+        
+          let newObj={};
+          newObj["date"]=$("#table1").children("tbody").children("tr").children("th").eq(i).text();
+          newObj["pays"]=[$("#table1").children("tbody").children("tr").eq(j).children("td").eq(0).text()]
+          newObj["crimes"]=$("#table1").children("tbody").children("tr").eq(j).children("td").eq(i-1).text()
+          criminalite.push(newObj);
+          console.log(newObj);
+        
+      }
+    }
+    console.log(criminalite);
     
 
 
@@ -2185,8 +2199,8 @@
     let chart1=function(){
    
       var svg = dimple.newSvg("#chartContainer1", 590, 400);
-      d3.tsv("/data/example_data.tsv", function (data) {            //This needs to be replaced with a generated array of objects
-      data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+      
+      let data = dimple.filterData(criminalite, "pays", ["Belgique", "Turquie"])
       var myChart = new dimple.chart(svg, data);
       myChart.setBounds(60, 30, 505, 305);
       var x = myChart.addCategoryAxis("x", "Année");
@@ -2195,12 +2209,8 @@
       myChart.addSeries("Pays", dimple.plot.line);
       myChart.addLegend(60, 10, 500, 20, "right");
       myChart.draw();
-      })
       }
-      
-      
-      console.log(chart1());
-     
+    
       script1.innerHTML=chart1();
    
     //AJAX request
@@ -2239,23 +2249,12 @@
     }
     makeAjaxCall('GET','https://inside.becode.org/api/v1/data/random.json').then(createTab, errorHandler);
 
-    console.log($("#table1").children("tbody").children("tr").children("th").eq(2).text()); // selector model for dates
-    console.log($("#table1").children("tbody").children("tr").eq(1).children("td").eq(0).text());//Selector model for countries
-    console.log($("#table1").children("tbody").children("tr").eq(1).children("td").eq(1).text());//Selector model for data
+    //console.log($("#table1").children("tbody").children("tr").children("th").eq(2).text()); // selector model for dates
+    //console.log($("#table1").children("tbody").children("tr").eq(1).children("td").eq(0).text());//Selector model for countries
+    //console.log($("#table1").children("tbody").children("tr").eq(1).children("td").eq(1).text());//Selector model for data
     
    
-    for (i=2;i<13;i++){
-      for(j=1;j<36;j++){
-        
-          let newObj={};
-          newObj["date"]=$("#table1").children("tbody").children("tr").children("th").eq(i).text();
-          newObj[$("#table1").children("tbody").children("tr").eq(j).children("td").eq(0).text()]=$("#table1").children("tbody").children("tr").eq(j).children("td").eq(i-1).text()
-          criminalite.push(newObj);
-          console.log(newObj);
-        
-      }
-    }
-    console.log(criminalite);
+
 
     
 
