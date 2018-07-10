@@ -2202,7 +2202,7 @@
    
       var svg = dimple.newSvg("#chartContainer1", 590, 400);
       
-      let data = dimple.filterData(criminalite, "pays", ["Belgique", "Allemagne", "Turquie","Luxembourg"])
+      let data = dimple.filterData(criminalite, "pays", ["Belgique", "Allemagne", "Turquie","France"])
       var myChart = new dimple.chart(svg, data);
       myChart.setBounds(60, 30, 505, 305);
       var x = myChart.addCategoryAxis("x", "date");
