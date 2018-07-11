@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //set dimensions of the graph
+    var margin={top:30, right:20, bottom:30, left:50},
+        width=600-margin.right-margin.left,
+        height=270-margin.top-margin.bottom;
+
+    //set ranges
+    var xRange=d3.scale.linear().range([0,width]),
+        yRange=d3.scale.linear().range([height,0]);
+    console.log(xRange); 
+
+    // define axes
+    var xAxis=d3.svg.axis().scale(xRange)
+        .orient("bottom").ticks(11),
+        yAxis=d3.svg.axis().scale(yRange)
+        .orient("left").ticks(20);
+
+    //define the value of the line
+    var valueline=d3.svg.line()
+    .x(function(d){return xRange(d.date);})
+    .y(function(d){return yRange(d.crimes);});
+
+    // add svg canvas into DOM
+    var svg=d3.select("body")
+    .append("svg")
+        .attr("width", width+margin.left+margin.right)
+        .attr("height",height+margin.top+margin.bottom)
+    .append("g")
+        .attr("transform", "translate("+margin.left+","+margin.top+")");
+
+    //treat the data: convert into numbers
+    criminalite.forEach(function(d) {
+    d.date = +d.date;
+    d.crimes = +d.crimes;
+    })
+
+    // Scale the range of the data
+    xRange.domain(d3.extent(data, function(d) { return d.date; }));
+    yRange.domain([0, d3.max(data, function(d) { return d.crimes; })]);
+
+    console.log(xRange)
+
+    // Add the valueline path.
+    svg.append("path")
+        .attr("class", "line")
+        .attr("d", valueline(data));
+
+    // Add the X Axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // Add the Y Axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+    </script>
+</body>
+</html>
+
+

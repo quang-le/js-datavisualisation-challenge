@@ -2174,6 +2174,7 @@
     document.getElementById("Crimes_et_d.C3.A9lits_enregistr.C3.A9s_par_les_services_de_police").appendChild(tab1);
     document.getElementById("Homicides").appendChild(tab2);
     tab1.setAttribute("id","chartContainer1");
+    tab2.setAttribute("id","chartContainer2");
     tab1.appendChild(script1);
     tab2.appendChild(script2);
 
@@ -2199,20 +2200,11 @@
 
     //HTML chart 1
     let chart1=function(){
-   
-      var svg = dimple.newSvg("#chartContainer1", 590, 400);
       
-      let data = dimple.filterData(criminalite, "pays", ["Belgique", "Allemagne", "Turquie","France"])
-      var myChart = new dimple.chart(svg, data);
-      myChart.setBounds(60, 30, 505, 305);
-      var x = myChart.addCategoryAxis("x", "date");
-      x.addOrderRule("date");
-      myChart.addMeasureAxis("y", "crimes");
-      myChart.addSeries("pays", dimple.plot.line);
-      myChart.addLegend(60, 10, 500, 20, "right");
-      myChart.draw();
-      }
-    
+    }
+
+
+
       script1.innerHTML=chart1();
    
     //AJAX request
