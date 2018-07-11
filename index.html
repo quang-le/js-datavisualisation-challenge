@@ -2205,6 +2205,7 @@
       let margin={top:50,right:50,bottom:50,left:50};
       let w = 700-margin.right-margin.left;
       let h = 700-margin.top-margin.bottom;
+      let barPadding= 7;
 
       //Create SVG and insert it in DOM
       svg1=d3.select("#chartContainer1")
@@ -2220,16 +2221,46 @@
       }
       
       //Create array of data for 2012 and 2002
-      let data2002= mapper(criminalite, date, "2002");
-      let data2012= mapper(criminalite, date, "2002");
-        
+      let data2002= mapper(criminalite, "date", "2002");
+      let data2012= mapper(criminalite, "date", "2012");
+
+      //Scaling
+      // Scale according to the dataset that has the highest max value
+      let xMax;
+      if(d3.max(data2012, function(d){return d[crimes]})>=d3.max(data2002, function(d){return d[crimes]})){
+         xMax=d3.max(data2012, function(d){return d[crimes]})
+        }
+
+      else{
+        xMax=d3.max(data2002, function(d){return d[crimes]})
+      }
+      //x scale
+      let xScale=d3.scale.linear()
+                          .domain(0,d3.max(0,xMax))
+                          .range(0,w);
+
+      // y scale
+      let yScale=d3.scale.linear()
+                          .domain(0,40)
+                          .range(h,0);
+                         
+
       //Create rectangles for year 2012
       svg.select("rect")
         .data(data2012)
+        .enter()
+        .append("rect")
+        .attr("x",0)
+        .attr("y",function(d,i){return i*(h/data2012.length)})
+        .attr("width", function (d,i){return d.crimes})
+        .attr("height", h/data2012.length+barPadding)
+
+      console.log(data2012);
+      console.log(xMax);
     }
 
 
-
+    chart1();
       
    
     //AJAX request
