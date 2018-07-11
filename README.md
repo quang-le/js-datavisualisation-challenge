@@ -47,5 +47,12 @@ X. Log
 10/07/2018:
 - 12:00: read d3 tutorials. Feeling ready to try something out.
 - 12:05: merged dimple graphs on master. Created d3 branch
+- 17:00: somehow all changes were carried on to master. Couldn't make enough sense od D3 documantation
+
+11/07/2018:
+- 10:30: found good resource online. 
+- 14:00: finished reading online book about D3
+- 14:30: start reviewing planned graph, switching to bar graph, with a twist TBD.
+- 15:30: start coding new bar graph
 
 

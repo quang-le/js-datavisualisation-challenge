@@ -2175,8 +2175,8 @@
     document.getElementById("Homicides").appendChild(tab2);
     tab1.setAttribute("id","chartContainer1");
     tab2.setAttribute("id","chartContainer2");
-    tab1.appendChild(script1);
-    tab2.appendChild(script2);
+    //tab1.appendChild(script1);
+    //tab2.appendChild(script2);
 
     //Array of objects to store data set 1
     let criminalite= []; 
@@ -2200,12 +2200,37 @@
 
     //HTML chart 1
     let chart1=function(){
+
+      // Define margins for SVG canvas
+      let margin={top:50,right:50,bottom:50,left:50};
+      let w = 700-margin.right-margin.left;
+      let h = 700-margin.top-margin.bottom;
+
+      //Create SVG and insert it in DOM
+      svg1=d3.select("#chartContainer1")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
       
+      //Function to extract relevant data from array
+      function mapper(array,key,value){
+         array.filter(function(e){
+          return e.key=value        
+        })
+      }
+      
+      //Create array of data for 2012 and 2002
+      let data2002= mapper(criminalite, date, "2002");
+      let data2012= mapper(criminalite, date, "2002");
+        
+      //Create rectangles for year 2012
+      svg.select("rect")
+        .data(data2012)
     }
 
 
 
-      script1.innerHTML=chart1();
+      
    
     //AJAX request
     function makeAjaxCall (methodtype, url){
