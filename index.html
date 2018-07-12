@@ -2194,9 +2194,9 @@
         
       }
     }
-    console.log(criminalite);
-    console.log(criminalite[0].date);
-    console.log("2012");
+   // console.log(criminalite);
+    //console.log(criminalite[0].date);
+   
     
 
 
@@ -2240,9 +2240,9 @@
       }
       dataSorter("2012",data2012);
       dataSorter("2002",data2002);
-      // console.log(data2012);
-      // console.log(data2002);
-      console.log(w);
+      //console.log(data2012);
+      //console.log(data2002);
+     
 
       //Scaling
       //Scale according to the dataset that has the highest max value
@@ -2277,15 +2277,49 @@
                           .range([0,h]);
                          
 
-      //Create rectangles for year 2012
-      svg1.selectAll("rect")
+      //Create rectangles for year 2002
+      svg1.selectAll(".rect2002")
         .data(data2002)
         .enter()
         .append("rect")
+        .attr("class","rect2002")
         .attr("x",0)
         .attr("y",function(d,i){return i*(h/data2002.length)})
         .attr("width", function (d,i){ return xScale(d.crimes)})
         .attr("height", h/data2002.length-barPadding)
+        .attr("fill", "green")
+
+      //Create rectangles for year 2012
+      svg1.selectAll(".rect2012")
+        .data(data2012)
+        .enter()
+        .append("rect")
+        .attr("class","rect2012")
+        .attr("x",0)
+        .attr("y",function(d,i){return i*(h/data2012.length)})
+        .attr("width", function (d,i){ return xScale(d.crimes)})
+        .attr("height", h/data2012.length-barPadding) 
+        .attr("fill","blue")
+
+      //Recreate 2002 if 2002<2012
+      svg1.selectAll(".rect2002bis")
+        .data(data2002)
+        .enter()
+        .append("rect")
+        .attr("class","rect2002bis")
+        .attr("x",0)
+        .attr("y",function(d,i){return i*(h/data2002.length)})
+        .attr("width", function (d,i){ return xScale(d.crimes)})
+        .attr("height", function(d){
+          if(d.crimes<=data2012.crimes){ //select rectangles outside of d3
+            return h/data2002.length-barPadding
+          }
+          else{
+            return 0;
+          }}
+          ) 
+        .attr("fill","red")
+
 
       //console.log(data2012);
 
@@ -2293,8 +2327,8 @@
       let xAxis=d3.axisBottom(xScale);
                      
       svg1.append("g")
-          .attr("class", "axis")
-          .attr("transform", "translate(0," + (h - barPadding) + ")")
+          .attr("class", "axis x")
+          .attr("transform", "translate(0," + h + ")")
           .call(xAxis)
 
       //create Y axis
@@ -2302,12 +2336,9 @@
                   .ticks(35);
       
       svg1.append("g")
-          .attr("class", "axis")
+          .attr("class", "axis y")
           //.attr("transform", "translate(0," + (h - barPadding) + ")")
-          .call(yAxis)
-
-         
-          
+          .call(yAxis)            
       
     }
 
