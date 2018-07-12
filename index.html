@@ -2204,7 +2204,7 @@
     let chart1=function(){
 
       // Define margins for SVG canvas
-      let margin={top:50,right:50,bottom:150,left:50};
+      let margin={top:50,right:50,bottom:50,left:50};
       let w = 700-margin.right-margin.left;
       let h = 700-margin.top-margin.bottom;
       let barPadding= 4;
@@ -2213,8 +2213,10 @@
       //Create SVG and insert it in DOM
       svg1=d3.select("#chartContainer1")
         .append("svg")
-        .attr("width", w+margin.left+margin.right)
-        .attr("height", h+margin.top+margin.bottom);
+          .attr("width", w+margin.left+margin.right)
+          .attr("height", h+margin.top+margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
       
      
       //Create array of data for 2012 and 2002
@@ -2259,9 +2261,20 @@
                           .range([0,w+margin.left+margin.right]);
 
       // y scale
-      let yScale=d3.scaleLinear()
-                          .domain([0,40])
-                          .range([h+margin.top+margin.bottom,0]);
+      //create array with countries
+      
+        let yScaleArray=[];
+        for(i=0;i<data2002.length;i++){
+          yScaleArray.push(data2002[i].pays)
+        }
+        console.log(yScaleArray)
+        
+      
+     
+
+      let yScale=d3.scalePoint()
+                          .domain(yScaleArray, function(d){return d})
+                          .range([0,h]);
                          
 
       //Create rectangles for year 2012
@@ -2274,7 +2287,7 @@
         .attr("width", function (d,i){ return d.crimes/10})
         .attr("height", h/data2012.length-barPadding)
 
-      console.log(data2012);
+      //console.log(data2012);
 
       //create xAxis  
       let xAxis=d3.axisBottom(xScale);
@@ -2283,6 +2296,16 @@
           .attr("class", "axis")
           .attr("transform", "translate(0," + (h - barPadding) + ")")
           .call(xAxis)
+
+      //create Y axis
+      let yAxis=d3.axisLeft(yScale)
+                  .ticks(35);
+      
+      svg1.append("g")
+          .attr("class", "axis")
+          //.attr("transform", "translate(0," + (h - barPadding) + ")")
+          .call(yAxis)
+
          
           
       
