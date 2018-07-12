@@ -2500,6 +2500,8 @@
             .datum(ajaxData) // 10. Binds data to the line 
             .attr("class", "line") // Assign a class for styling 
             .attr("d", line); // 11. Calls the line generator 
+
+      setTimeout(caller,3000);
       
         
       }
@@ -2507,7 +2509,10 @@
         console.log("failed with "+error);
       }
       //making the call
-      makeAjaxCall('GET','https://inside.becode.org/api/v1/data/random.json').then(createArray, errorHandler); 
+      var caller = function() {
+        makeAjaxCall('GET','https://inside.becode.org/api/v1/data/random.json').then(createArray, errorHandler); 
+      }
+      caller();
       console.log(ajaxData);    // shows up before the request results due to processing time
     
     
