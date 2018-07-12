@@ -2195,6 +2195,8 @@
       }
     }
     console.log(criminalite);
+    console.log(criminalite[0].date);
+    console.log("2012");
     
 
 
@@ -2202,65 +2204,94 @@
     let chart1=function(){
 
       // Define margins for SVG canvas
-      let margin={top:50,right:50,bottom:50,left:50};
+      let margin={top:50,right:50,bottom:150,left:50};
       let w = 700-margin.right-margin.left;
       let h = 700-margin.top-margin.bottom;
-      let barPadding= 7;
+      let barPadding= 4;
 
+      
       //Create SVG and insert it in DOM
       svg1=d3.select("#chartContainer1")
         .append("svg")
-        .attr("width", w)
-        .attr("height", h);
+        .attr("width", w+margin.left+margin.right)
+        .attr("height", h+margin.top+margin.bottom);
       
-      //Function to extract relevant data from array
-      function mapper(array,key,value){
-         array.filter(function(e){
-          return e.key=value        
-        })
-      }
-      
+     
       //Create array of data for 2012 and 2002
-      let data2002= mapper(criminalite, "date", "2002");
-      let data2012= mapper(criminalite, "date", "2012");
+      let data2012=[];
+      let data2002=[];
+      let dataSorter = (sortDate, dataset) => {
+        for (i=0; i<criminalite.length;i++){
+          if (criminalite[i].date==sortDate){
+            let obj={};
+
+            Object.assign(obj,{date:criminalite[i].date})
+            Object.assign(obj,{pays:criminalite[i].pays})
+            Object.assign(obj,{crimes:criminalite[i].crimes});
+            dataset.push(obj);
+          }
+          else {
+            console.log("no match")
+          }
+        
+        };
+      }
+      dataSorter("2012",data2012);
+      dataSorter("2002",data2002);
+      // console.log(data2012);
+      // console.log(data2002);
+      console.log(w);
 
       //Scaling
-      // Scale according to the dataset that has the highest max value
-      let xMax;
-      if(d3.max(data2012, function(d){return d[crimes]})>=d3.max(data2002, function(d){return d[crimes]})){
-         xMax=d3.max(data2012, function(d){return d[crimes]})
-        }
+      //Scale according to the dataset that has the highest max value
+    //   let xMax;
+    //   if(d3.max(data2012, function(d){return d[crimes]})>=d3.max(data2002, function(d){return d[crimes]})){
+    //      xMax=d3.max(data2012, function(d){return d[crimes]})
+    //     }
 
-      else{
-        xMax=d3.max(data2002, function(d){return d[crimes]})
-      }
+    //   else{
+    //     xMax=d3.max(data2002, function(d){return d[crimes]})
+    //  }
+
       //x scale
-      let xScale=d3.scale.linear()
-                          .domain(0,d3.max(0,xMax))
-                          .range(0,w);
+      let xScale=d3.scaleLinear()
+                          .domain([0,7000]) //correction needed. maybe turn xScale into a function
+                          .range([0,w+margin.left+margin.right]);
 
       // y scale
-      let yScale=d3.scale.linear()
-                          .domain(0,40)
-                          .range(h,0);
+      let yScale=d3.scaleLinear()
+                          .domain([0,40])
+                          .range([h+margin.top+margin.bottom,0]);
                          
 
       //Create rectangles for year 2012
-      svg.select("rect")
-        .data(data2012)
+      svg1.selectAll("rect")
+        .data(data2002)
         .enter()
         .append("rect")
         .attr("x",0)
-        .attr("y",function(d,i){return i*(h/data2012.length)})
-        .attr("width", function (d,i){return d.crimes})
-        .attr("height", h/data2012.length+barPadding)
+        .attr("y",function(d,i){return i*(h/data2002.length)})
+        .attr("width", function (d,i){ return d.crimes/10})
+        .attr("height", h/data2012.length-barPadding)
 
       console.log(data2012);
-      console.log(xMax);
+
+      //create xAxis  
+      let xAxis=d3.axisBottom(xScale);
+                     
+      svg1.append("g")
+          .attr("class", "axis")
+          .attr("transform", "translate(0," + (h - barPadding) + ")")
+          .call(xAxis)
+         
+          
+      
     }
 
 
     chart1();
+
+    
       
    
     //AJAX request
@@ -2301,7 +2332,7 @@
 
     //console.log($("#table1").children("tbody").children("tr").children("th").eq(2).text()); // selector model for dates
     //console.log($("#table1").children("tbody").children("tr").eq(1).children("td").eq(0).text());//Selector model for countries
-    console.log(parseFloat($("#table1").children("tbody").children("tr").eq(1).children("td").eq(1).text()));//Selector model for data
+    //console.log(parseFloat($("#table1").children("tbody").children("tr").eq(1).children("td").eq(1).text())); //Selector model for data
     
    
 
