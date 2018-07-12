@@ -2169,14 +2169,11 @@
     //DOM insertion
     let tab1=document.createElement("DIV");
     let tab2=document.createElement("DIV");
-    let script1=document.createElement("SCRIPT");
-    let script2=document.createElement("SCRIPT");
+
     document.getElementById("Crimes_et_d.C3.A9lits_enregistr.C3.A9s_par_les_services_de_police").appendChild(tab1);
     document.getElementById("Homicides").appendChild(tab2);
     tab1.setAttribute("id","chartContainer1");
     tab2.setAttribute("id","chartContainer2");
-    //tab1.appendChild(script1);
-    //tab2.appendChild(script2);
 
     //Array of objects to store data set 1
     let criminalite= []; 
@@ -2190,14 +2187,26 @@
         newObj["pays"]=$("#table1").children("tbody").children("tr").eq(j).children("td").eq(0).text();
         newObj["crimes"]=parseFloat(crimes);
         criminalite.push(newObj);
-        console.log(newObj);
-        
+       // console.log(newObj);  
       }
     }
-   // console.log(criminalite);
-    //console.log(criminalite[0].date);
-   
-    
+
+    //Array of objects to store date set 2
+    let homicides=[];
+    for (i=2;i<4;i++){
+      for(j=0;j<30;j++){
+        let meurtres=$("#table2").children("tbody").children("tr").eq(j).children("td").eq(i-1).text();
+       
+      
+        let newObj2={};
+        newObj2["date"]=$("#table2").children("thead").children("tr").children("th").eq(i).text();
+        newObj2["pays"]=$("#table2").children("tbody").children("tr").eq(j).children("td").eq(0).text();
+        newObj2["meurtres"]=parseFloat(meurtres);
+        homicides.push(newObj2);
+        console.log(newObj2);  
+      }
+    }
+    console.log(homicides)
 
 
     //HTML chart 1
@@ -2208,8 +2217,7 @@
       let w = 750-margin.right-margin.left;
       let h = 900-margin.top-margin.bottom;
       let barPadding= 2;
-
-      
+     
       //Create SVG and insert it in DOM
       svg1=d3.select("#chartContainer1")
         .append("svg")
@@ -2218,7 +2226,6 @@
         .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
       
-     
       //Create array of data for 2012 and 2002
       let data2012=[];
       let data2002=[];
@@ -2226,7 +2233,6 @@
         for (i=0; i<criminalite.length;i++){
           if (criminalite[i].date==sortDate){
             let obj={};
-
             Object.assign(obj,{date:criminalite[i].date})
             Object.assign(obj,{pays:criminalite[i].pays})
             Object.assign(obj,{crimes:criminalite[i].crimes});
@@ -2235,84 +2241,57 @@
           else {
             console.log("no match")
           }
-        
         };
       }
       dataSorter("2012",data2012);
       dataSorter("2002",data2002);
-      //console.log(data2012);
-      //console.log(data2002);
-     
-
-      //Scaling
-      //Scale according to the dataset that has the highest max value
-    //   let xMax;
-    //   if(d3.max(data2012, function(d){return d[crimes]})>=d3.max(data2002, function(d){return d[crimes]})){
-    //      xMax=d3.max(data2012, function(d){return d[crimes]})
-    //     }
-
-    //   else{
-    //     xMax=d3.max(data2002, function(d){return d[crimes]})
-    //  }
 
       //x scale
       let xScale=d3.scaleLinear()
-                          .domain([0,d3.max(data2002, function(d){return d.crimes})]) //correction needed. maybe turn xScale into a function
-                          .range([0,w+margin.left]);
+                      .domain([0,d3.max(data2002, function(d){return d.crimes})]) //correction needed. maybe turn xScale into a function
+                      .range([0,w+margin.left]);
+
+      //create array with countries for y scale
+      let yScaleArray=[];
+      for(i=0;i<data2002.length;i++){
+        yScaleArray.push(data2002[i].pays)
+      }
 
       // y scale
-      //create array with countries
-      
-        let yScaleArray=[];
-        for(i=0;i<data2002.length;i++){
-          yScaleArray.push(data2002[i].pays)
-        }
-        console.log(yScaleArray)
-        
-      
-     
-
       let yScale=d3.scaleBand()
-                          .domain(yScaleArray, function(d){return d})
-                          .range([0,h])
-                          
-
-      console.log(yScale.bandwidth());
-                         
-
+                      .domain(yScaleArray, function(d){return d})
+                      .range([0,h])
+                                                  
       //Create rectangles for year 2002
       svg1.selectAll(".rect2002")
-        .data(data2002)
-        .enter()
-        .append("rect")
-        .attr("class","rect2002")
-        .attr("x",0)
-        .attr("y",function(d,i){return (i*(h/data2002.length)+barPadding/2)})
-        .attr("width", function (d,i){ return xScale(d.crimes)})
-        .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
-        .attr("fill", "green")
+            .data(data2002)
+            .enter()
+            .append("rect")
+              .attr("class","rect2002")
+              .attr("x",0)
+              .attr("y",function(d,i){return (i*(h/data2002.length)+barPadding/2)})
+              .attr("width", function (d,i){ return xScale(d.crimes)})
+              .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
+              .attr("fill", "green")
 
       //Create rectangles for year 2012
       svg1.selectAll(".rect2012")
-        .data(data2012)
-        .enter()
-        .append("rect")
-        .attr("class","rect2012")
-        .attr("x",0)
-        .attr("y",function(d,i){return (i*(h/data2012.length))+(yScale.bandwidth()/2)})
-        .attr("width", function (d,i){ return xScale(d.crimes)})
-        .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
-        .attr("fill","blue")
-
-
-      //console.log(data2012);
+            .data(data2012)
+            .enter()
+            .append("rect")
+              .attr("class","rect2012")
+              .attr("x",0)
+              .attr("y",function(d,i){return (i*(h/data2012.length))+(yScale.bandwidth()/2)})
+              .attr("width", function (d,i){ return xScale(d.crimes)})
+              .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
+              .attr("fill","blue")
 
       //create xAxis  
       let xAxis=d3.axisBottom(xScale);
                      
       svg1.append("g")
-          .attr("class", "axis x")
-          .attr("transform", "translate(0," + h + ")")
+            .attr("class", "axis x")
+            .attr("transform", "translate(0," + h + ")")
           .call(xAxis)
 
       //create Y axis
@@ -2321,13 +2300,110 @@
       
       svg1.append("g")
           .attr("class", "axis y")
-          //.attr("transform", "translate(0," + (h - barPadding) + ")")
           .call(yAxis)            
       
     }
 
+    //HTML chart 2
+    let chart2=function(){
+
+      // Define margins for SVG canvas
+      let margin={top:50,right:150,bottom:50,left:90};
+      let w = 750-margin.right-margin.left;
+      let h = 900-margin.top-margin.bottom;
+      let barPadding= 2;
+
+      //Create SVG and insert it in DOM
+      svg1=d3.select("#chartContainer2")
+        .append("svg")
+          .attr("width", w+margin.left+margin.right)
+          .attr("height", h+margin.top+margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      //Create array of data for 2012 and 2002
+      let data2007=[];
+      let data2010=[];
+      let dataSorter = (sortDate, dataset) => {
+        for (i=0; i<homicides.length;i++){
+          if (homicides[i].date==sortDate){
+            let obj={};
+            Object.assign(obj,{date:homicides[i].date})
+            Object.assign(obj,{pays:homicides[i].pays})
+            Object.assign(obj,{meurtres:homicides[i].meurtres});
+            dataset.push(obj);
+          }
+          else {
+            console.log("no match")
+          }
+        };
+      }
+      dataSorter("2007–09",data2007);
+      dataSorter("2010–12",data2010);
+      console.log(data2007);
+
+      //x scale
+      let xScale=d3.scaleLinear()
+                      .domain([0,d3.max(data2010, function(d){return d.meurtres})])
+                      .range([0,w+margin.left]);
+
+      //create array with countries for y scale
+      let yScaleArray=[];
+      for(i=0;i<data2010.length;i++){
+        yScaleArray.push(data2010[i].pays)
+      }
+
+      // y scale
+      let yScale=d3.scaleBand()
+                      .domain(yScaleArray, function(d){return d})
+                      .range([0,h])
+
+      //Create rectangles for year 2007
+      svg1.selectAll(".rect2007")
+            .data(data2007)
+            .enter()
+            .append("rect")
+              .attr("class","rect2007")
+              .attr("x",0)
+              .attr("y",function(d,i){return (i*(h/data2007.length))+(yScale.bandwidth()/2)})
+              .attr("width", function (d,i){ return xScale(d.meurtres)})
+              .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
+              .attr("fill","blue")
+
+      //Create rectangles for year 2010
+      svg1.selectAll(".rect2010")
+            .data(data2010)
+            .enter()
+            .append("rect")
+              .attr("class","rect2010")
+              .attr("x",0)
+              .attr("y",function(d,i){return (i*(h/data2010.length)+barPadding/2)})
+              .attr("width", function (d,i){ return xScale(d.meurtres)})
+              .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
+              .attr("fill", "green")
+
+
+      //create xAxis  
+      let xAxis=d3.axisBottom(xScale);
+                    
+      svg1.append("g")
+            .attr("class", "axis x")
+            .attr("transform", "translate(0," + h + ")")
+          .call(xAxis)
+
+      //create Y axis
+      let yAxis=d3.axisLeft(yScale)
+                  .ticks(30);
+
+      svg1.append("g")
+          .attr("class", "axis y")
+          .call(yAxis)            
+
+      }
+
 
     chart1();
+    chart2();
 
     
       
