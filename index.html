@@ -2207,7 +2207,7 @@
       let margin={top:50,right:150,bottom:50,left:90};
       let w = 750-margin.right-margin.left;
       let h = 900-margin.top-margin.bottom;
-      let barPadding= 4;
+      let barPadding= 2;
 
       
       //Create SVG and insert it in DOM
@@ -2274,7 +2274,10 @@
 
       let yScale=d3.scaleBand()
                           .domain(yScaleArray, function(d){return d})
-                          .range([0,h]);
+                          .range([0,h])
+                          
+
+      console.log(yScale.bandwidth());
                          
 
       //Create rectangles for year 2002
@@ -2284,9 +2287,9 @@
         .append("rect")
         .attr("class","rect2002")
         .attr("x",0)
-        .attr("y",function(d,i){return i*(h/data2002.length)})
+        .attr("y",function(d,i){return (i*(h/data2002.length)+barPadding/2)})
         .attr("width", function (d,i){ return xScale(d.crimes)})
-        .attr("height", h/data2002.length-barPadding)
+        .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
         .attr("fill", "green")
 
       //Create rectangles for year 2012
@@ -2296,29 +2299,10 @@
         .append("rect")
         .attr("class","rect2012")
         .attr("x",0)
-        .attr("y",function(d,i){return i*(h/data2012.length)})
+        .attr("y",function(d,i){return (i*(h/data2012.length))+(yScale.bandwidth()/2)})
         .attr("width", function (d,i){ return xScale(d.crimes)})
-        .attr("height", h/data2012.length-barPadding) 
+        .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
         .attr("fill","blue")
-
-      //Recreate 2002 if 2002<2012
-      svg1.selectAll(".rect2002bis")
-        .data(data2002)
-        .enter()
-        .append("rect")
-        .attr("class","rect2002bis")
-        .attr("x",0)
-        .attr("y",function(d,i){return i*(h/data2002.length)})
-        .attr("width", function (d,i){ return xScale(d.crimes)})
-        .attr("height", function(d){
-          if(d.crimes<=data2012.crimes){ //select rectangles outside of d3
-            return h/data2002.length-barPadding
-          }
-          else{
-            return 0;
-          }}
-          ) 
-        .attr("fill","red")
 
 
       //console.log(data2012);
