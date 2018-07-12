@@ -2169,11 +2169,14 @@
     //DOM insertion
     let tab1=document.createElement("DIV");
     let tab2=document.createElement("DIV");
+    let tab3=document.createElement("DIV");
 
     document.getElementById("Crimes_et_d.C3.A9lits_enregistr.C3.A9s_par_les_services_de_police").appendChild(tab1);
     document.getElementById("Homicides").appendChild(tab2);
+    document.getElementById("firstHeading").appendChild(tab3);
     tab1.setAttribute("id","chartContainer1");
     tab2.setAttribute("id","chartContainer2");
+    tab3.setAttribute("id","chartContainer3");
 
     //Array of objects to store data set 1
     let criminalite= []; 
@@ -2238,9 +2241,9 @@
             Object.assign(obj,{crimes:criminalite[i].crimes});
             dataset.push(obj);
           }
-          else {
-            console.log("no match")
-          }
+          // else {
+          //   console.log("no match")
+          // }
         };
       }
       dataSorter("2012",data2012);
@@ -2333,9 +2336,9 @@
             Object.assign(obj,{meurtres:homicides[i].meurtres});
             dataset.push(obj);
           }
-          else {
-            console.log("no match")
-          }
+          // else {
+          //   console.log("no match")
+          // }
         };
       }
       dataSorter("2007–09",data2007);
@@ -2382,7 +2385,6 @@
               .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
               .attr("fill", "green")
 
-
       //create xAxis  
       let xAxis=d3.axisBottom(xScale);
                     
@@ -2401,57 +2403,118 @@
 
       }
 
-
     chart1();
     chart2();
 
-    
+    // AJAX chart
+    let chart3=()=>{
+      // Define margins for SVG canvas
+      let margin={top:50,right:150,bottom:50,left:90};
+      let w = 750-margin.right-margin.left;
+      let h = 500-margin.top-margin.bottom;
+
+      //store AJAX data
+      let ajaxData=[];
       
-   
-    //AJAX request
-    function makeAjaxCall (methodtype, url){
-    var promiseObj=new Promise(function(resolve,reject){
-        
-        let xhr=new XMLHttpRequest;
-        xhr.open(methodtype,url,true);
-        xhr.send();
-   
-        xhr.onreadystatechange=function(){
-            if (xhr.readyState===4){                  //checks the state of the request. 4 means its been treated
-                console.log('State is 4');                
-                if (xhr.status===200){                // checks the status. 200 means OK (as opposed to 404).
-                    var resp=xhr.responseText;        // store the response in a var  
-                    var respJSON=JSON.parse(resp);     // convert the text response into JSON
-                    console.log(xhr.responseText);  
-                    resolve(respJSON);                 // the JSON converted response will be called if the promise resolves 
-                }
-                else {
-                    console.log("status failure")
-                    reject(xhr.status);                // the status will be called if the promise is rejected
-                }
-                
+      //Create SVG and insert it in DOM
+      svg3=d3.select("#chartContainer3")
+        .append("svg")
+          .attr("width", w+margin.left+margin.right)
+          .attr("height", h+margin.top+margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      //Create x and y axis      
+      let xScale=d3.scaleLinear()
+                      .domain([0,10])
+                      .range([0,w+margin.left]);
+                      
+     
+      let yScale=d3.scaleLinear()
+                      .domain([-20,20])
+                      .range([h,0]);
+
+      let xAxis=d3.axisBottom(xScale);
+      let yAxis=d3.axisLeft(yScale)
+                  .ticks(10);
+
+      svg3.append("g")
+            .attr("class", "axis x")
+            .attr("transform", "translate(0," + h + ")")
+          .call(xAxis)
+          
+      svg3.append("g")
+          .attr("class", "axis y")
+          .call(yAxis)    
+
+      //AJAX request function
+      function makeAjaxCall (methodtype, url){
+      var promiseObj=new Promise(function(resolve,reject){
+          
+          let xhr=new XMLHttpRequest;
+          xhr.open(methodtype,url,true);
+          xhr.send();
+    
+          xhr.onreadystatechange=function(){
+              if (xhr.readyState===4){                   //checks the state of the request. 4 means its been treated
+                  console.log('State is 4');                
+                  if (xhr.status===200){                 // checks the status. 200 means OK (as opposed to 404).
+                      var resp=xhr.responseText;         // store the response in a var  
+                      var respJSON=JSON.parse(resp);     // convert the text response into JSON
+                      console.log(xhr.responseText);
+                      console.log(respJSON);  
+                      resolve(respJSON);                 // the JSON converted response will be called if the promise resolves 
+                  }
+                  else {
+                      console.log("status failure")
+                      reject(xhr.status);                // the status will be called if the promise is rejected
+                  }
+                  
+              }
+              else {
+                  console.log("xhr processing going on"); // if readystate !=4 it means the request isn't done processing. The promise can't be resolved or rejected yet.
+              }
             }
-            else {
-                console.log("xhr processing going on");      // if readystate !=4 it means the request isn't done processing. The promise can't be resolved or rejected yet.
-            }
+        });
+        return promiseObj;
+      };
+      
+      //callback and error
+      createArray=(data)=> {
+        for (i=0; i<data.length;i++){
+            let obj={};
+            Object.assign(obj,{x:data[i][0]})
+            Object.assign(obj,{y:data[i][1]})
+            
+            ajaxData.push(obj);
           }
-      });
-      return promiseObj;
-    };
-    createTab=(data)=> {console.log(data)}
-    errorHandler=(error)=>{
-      console.log("failed with "+error);
+          console.log(ajaxData);
+        
+        var line = d3.line()
+              .x(function(d) { return xScale(d.x); }) // set the x values for the line generator
+              .y(function(d) { return yScale(d.y); }) // set the y values for the line generator 
+              //.curve(d3.curveMonotoneX) // apply smoothing to the line
+
+        // 9. Append the path, bind the data, and call the line generator 
+        svg3.append("path")
+            .datum(ajaxData) // 10. Binds data to the line 
+            .attr("class", "line") // Assign a class for styling 
+            .attr("d", line); // 11. Calls the line generator 
+      
+        
+      }
+      errorHandler=(error)=>{
+        console.log("failed with "+error);
+      }
+      //making the call
+      makeAjaxCall('GET','https://inside.becode.org/api/v1/data/random.json').then(createArray, errorHandler); 
+      console.log(ajaxData);    // shows up before the request results due to processing time
+    
+    
     }
-    makeAjaxCall('GET','https://inside.becode.org/api/v1/data/random.json').then(createTab, errorHandler);
-
-    //console.log($("#table1").children("tbody").children("tr").children("th").eq(2).text()); // selector model for dates
-    //console.log($("#table1").children("tbody").children("tr").eq(1).children("td").eq(0).text());//Selector model for countries
-    //console.log(parseFloat($("#table1").children("tbody").children("tr").eq(1).children("td").eq(1).text())); //Selector model for data
-    
-   
+    chart3()
 
 
-    
 
   </script>
 </body>

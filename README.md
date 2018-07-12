@@ -55,4 +55,9 @@ X. Log
 - 14:30: start reviewing planned graph, switching to bar graph, with a twist TBD.
 - 15:30: start coding new bar graph
 
-
+12/07/2018:
+- 11:00: the screen displays black bars. Struggling with axes.
+- 15:30: manage to display country names on y axis. bars are colored and separated now. X-axis is displayed but the scale is not correct
+- 17:00: fixed the axes by switching to dynamic scaling. centered the country names on y-axis by using `.bandwidth` to set rectangles' y position.
+- 19:30: now displaying 2 bars per country in graph 1. Had difficulty with the padding as I wanted smaller padding between bars of a same country(better legibility). Fixed it by tinkering with the y coordinate of the rectangle again.
+- 20:30: added graph2, by updating graph1 code. I'm certain there's a way to make a single graph generator function, but I'm out of time for this right now. Starting the AJAX graph, then I will add the interctive twist on each graph.
