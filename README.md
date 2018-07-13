@@ -61,3 +61,5 @@ X. Log
 - 17:00: fixed the axes by switching to dynamic scaling. centered the country names on y-axis by using `.bandwidth` to set rectangles' y position.
 - 19:30: now displaying 2 bars per country in graph 1. Had difficulty with the padding as I wanted smaller padding between bars of a same country(better legibility). Fixed it by tinkering with the y coordinate of the rectangle again.
 - 20:30: added graph2, by updating graph1 code. I'm certain there's a way to make a single graph generator function, but I'm out of time for this right now. Starting the AJAX graph, then I will add the interctive twist on each graph.
+- 00:00: generate a graph with an unbelievable shape and use setTimeout to add a new one. Need to add transition and to figure out domain shifting. Examples will be useful.
+
