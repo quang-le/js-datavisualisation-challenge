@@ -2414,14 +2414,6 @@
       let h = 500-margin.top-margin.bottom;
 
 
-    var globalX = 0;
-    var duration = 500;
-    var max = 500;
-    var step = 10;
-
-    //var x = d3.scaleLinear().domain([0, 500]).range([0, 500]);
-    //var y = d3.scaleLinear().domain([0, 500]).range([500, 0]);
-
       //store AJAX data
       let ajaxData=[];
       
@@ -2435,7 +2427,7 @@
 
       //Create x and y axis      
       let xScale=d3.scaleLinear()
-                      .domain([0,10])
+                      .domain([0,20])
                       .range([0,w+margin.left]);
                       
      
@@ -2444,8 +2436,8 @@
                       .range([h,0]);
 
       let xAxis=d3.axisBottom(xScale);
-      let yAxis=d3.axisLeft(yScale)
-                  .ticks(10);
+      // let yAxis=d3.axisLeft(yScale)
+      //             .ticks(10);
 
       let axisX= svg3.append("g")
             .attr("class", "axis x")
@@ -2453,9 +2445,9 @@
           
       axisX.call(xAxis);
           
-      svg3.append("g")
-          .attr("class", "axis y")
-          .call(yAxis);    
+      // svg3.append("g")
+      //     .attr("class", "axis y")
+      //     .call(yAxis);    
 
       //AJAX request function
       function makeAjaxCall (methodtype, url){
@@ -2490,7 +2482,7 @@
       };
       let count=0
       //callback and error
-      createArray=(data)=> {
+      createArray=function (data){
         
         for (i=0; i<data.length;i++){
             let obj={};
@@ -2498,38 +2490,27 @@
             Object.assign(obj,{y:data[i][1]})
             
             ajaxData.push(obj);
-            	    // Remote old data (max 50 points)
-	        if (ajaxData.length > 50) ajaxData.shift();
+          // Remove old data (max 200 points)
+	        if (ajaxData.length > 20) {
+            ajaxData.shift();
+            count=0;
           }
           console.log(ajaxData);
+
+          //define line  
+          var line = d3.line()
+          .x(function(d){ return x(d.xScale); })
+          .y(function(d){ return y(d.Scale); });
+
+          var path =svg3.append('path'); 
+          path.datum(ajaxData)
+              .attr('class', 'line')
+              .attr('d', line);      
         
-        var line = d3.line()
-              .x(function(d) { return xScale(d.x); }) // set the x values for the line generator
-              .y(function(d) { return yScale(d.y); }) // set the y values for the line generator 
-              //.curve(d3.curveMonotoneX) // apply smoothing to the line
 
-        // 9. Append the path, bind the data, and call the line generator 
-        svg3.append("path")
-          .datum(ajaxData) // 10. Binds data to the line 
-          .attr("class", "line") // Assign a class for styling 
-          .attr("d", line) // 11. Calls the line generator
-          .attr('transform', null)
-          .transition()
-          .duration(1000)
-          .ease(d3.easeLinear,2)
-          .attr('transform', 'translate(-80)')
-
-        xScale.domain([-10,0])
-        axisX.transition()
-		     .duration(2000)
-		     .ease(d3.easeLinear,2)
-          .call(xAxis);
-       
-         count+=10;
-
-      setTimeout(caller,1000);
-      
-        
+        }
+      count+=10;
+      setTimeout(caller,1000); 
       }
       errorHandler=(error)=>{
         console.log("failed with "+error);
@@ -2542,7 +2523,8 @@
       console.log(ajaxData);    // shows up before the request results due to processing time
     
     
-    }
+    
+    } 
     chart3()
 
 
