@@ -2413,7 +2413,6 @@
       let w = 750-margin.right-margin.left;
       let h = 500-margin.top-margin.bottom;
 
-
       //store AJAX data
       let ajaxData=[];
       
@@ -2425,12 +2424,35 @@
         .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      //Create x and y axis      
-      let xScale=d3.scaleLinear()
-                      .domain([0,20])
+      let count=0;
+      createArray=function (data){
+       
+        d3.select("#chartContainer3").selectAll(".line").remove();
+        d3.select("#chartContainer3").selectAll(".axis").remove();
+               
+        for (i=0; i<data.length;i++){
+            let obj={};
+            Object.assign(obj,{x:(data[i][0])+count})
+            Object.assign(obj,{y:data[i][1]})
+
+            ajaxData.push(obj);
+
+
+          // Remove old data (max 50 points)
+	        if (ajaxData.length > 50) {
+            ajaxData.shift();
+            
+            }
+          }
+     //Create x and y axis      
+     let xScale=d3.scaleLinear()
+                      .domain([d3.min(ajaxData,function(d){return Math.floor(d.x)}),d3.max(ajaxData,function(d){return Math.ceil(d.x)})])
                       .range([0,w+margin.left]);
-                      
-     
+
+      console.log(d3.max(ajaxData,function(d){return Math.ceil(d.x)}));
+      console.log(ajaxData);
+      console.log(w+margin.left)
+                           
       let yScale=d3.scaleLinear()
                       .domain([-20,20])
                       .range([h,0]);
@@ -2448,6 +2470,31 @@
       // svg3.append("g")
       //     .attr("class", "axis y")
       //     .call(yAxis);    
+
+      //callback and error
+          console.log(ajaxData);
+          console.log(ajaxData[0]);
+
+
+          
+          var path =svg3.append('path');
+            path.datum(ajaxData);
+
+                      //define line  
+          var line = d3.line()
+          .x(function(d){ console.log(xScale(d.x)); return xScale(d.x); })
+          .y(function(d){ console.log (yScale(d.y)); return yScale(d.y); })
+              
+              
+              path.attr('class', 'line')
+              .attr('d', line)
+              .attr("stroke-width","2")
+              .attr("fill","none")
+              .attr("stroke","black"); 
+
+      count+=10;
+      setTimeout(caller,1000); 
+      }
 
       //AJAX request function
       function makeAjaxCall (methodtype, url){
@@ -2480,38 +2527,7 @@
         });
         return promiseObj;
       };
-      let count=0
-      //callback and error
-      createArray=function (data){
-        
-        for (i=0; i<data.length;i++){
-            let obj={};
-            Object.assign(obj,{x:(data[i][0])+count})
-            Object.assign(obj,{y:data[i][1]})
-            
-            ajaxData.push(obj);
-          // Remove old data (max 200 points)
-	        if (ajaxData.length > 20) {
-            ajaxData.shift();
-            count=0;
-          }
-          console.log(ajaxData);
-
-          //define line  
-          var line = d3.line()
-          .x(function(d){ return x(d.xScale); })
-          .y(function(d){ return y(d.Scale); });
-
-          var path =svg3.append('path'); 
-          path.datum(ajaxData)
-              .attr('class', 'line')
-              .attr('d', line);      
-        
-
-        }
-      count+=10;
-      setTimeout(caller,1000); 
-      }
+      
       errorHandler=(error)=>{
         console.log("failed with "+error);
       }
@@ -2519,15 +2535,12 @@
       var caller = function() {
         makeAjaxCall('GET','https://inside.becode.org/api/v1/data/random.json').then(createArray, errorHandler); 
       }
+     
       caller();
-      console.log(ajaxData);    // shows up before the request results due to processing time
-    
-    
-    
-    } 
+      console.log(ajaxData);    // shows up before the request results due to processing time  
+}    
+     
     chart3()
-
-
 
   </script>
 </body>
