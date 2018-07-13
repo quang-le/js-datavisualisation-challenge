@@ -63,3 +63,9 @@ X. Log
 - 20:30: added graph2, by updating graph1 code. I'm certain there's a way to make a single graph generator function, but I'm out of time for this right now. Starting the AJAX graph, then I will add the interctive twist on each graph.
 - 00:00: generate a graph with an unbelievable shape and use setTimeout to add a new one. Need to add transition and to figure out domain shifting. Examples will be useful.
 
+13/07/2018:
+- 9:00-13:30: unable to do anything good. Too much stress to be able to think properly
+- 14:00: after a big break and letting go of the fact that I won't be able to complete the challeng on time, Is tart working again
+- 15:00: with the help of Claudiu, I manage to have a bare bones AJAX graph working.
+
+
