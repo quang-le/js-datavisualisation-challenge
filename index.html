@@ -2231,6 +2231,16 @@
       //Create array of data for 2012 and 2002
       let data2012=[];
       let data2002=[];
+      let data2003=[];
+      let data2004=[];
+      let data2005=[];
+      let data2006=[];
+      let data2007=[];
+      let data2008=[];
+      let data2009=[];
+      let data2010=[];
+      let data2011=[];
+
       let dataSorter = (sortDate, dataset) => {
         for (i=0; i<criminalite.length;i++){
           if (criminalite[i].date==sortDate){
@@ -2247,6 +2257,15 @@
       }
       dataSorter("2012",data2012);
       dataSorter("2002",data2002);
+      dataSorter("2003",data2003);
+      dataSorter("2004",data2004);
+      dataSorter("2005",data2005);
+      dataSorter("2006",data2006);
+      dataSorter("2007",data2007);
+      dataSorter("2008",data2008);
+      dataSorter("2009",data2009);
+      dataSorter("2010",data2010);
+      dataSorter("2011",data2011);
 
       //x scale
       let xScale=d3.scaleLinear()
@@ -2275,9 +2294,15 @@
               .attr("width", function (d,i){ return xScale(d.crimes)})
               .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
               .attr("fill", "green")
-              .on("click",function(){
+              .attr("opacity","0.8")
+              .on("mouseover",function(){
                 d3.select(this)
-                  .style("display","none")
+                  .attr("opacity","1");
+                
+              })
+              .on("mouseleave", function(){
+                d3.select(this)
+                .attr("opacity","0.8");
               })
 
       //Create rectangles for year 2012
@@ -2291,22 +2316,19 @@
               .attr("width", function (d,i){ return xScale(d.crimes)})
               .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
               .attr("fill","blue")
+              .attr("opacity","0.8")
+              .on("mouseover",function(){
+                d3.select(this)
+                  .attr("opacity","1");
+                
+              })
+              .on("mouseleave", function(){
+                d3.select(this)
+                .attr("opacity","0.8");
+              })
 
 
-      // svg1.select(".legend")
-      //         .enter()
-      //         .append("g")
-      //         .attr("class", "legend")
-      //         .attr("x","500")
-      //         .attr("y","50")
-      //         .attr("width","150")
-      //         .attr("height", "150")
-      //         .append("rect")
-      //           .attr("width","25")
-      //           .attr("height","25")
-      //           .attr("id","2002")
-      //           .attr("fill","green")
-      //           .text("2002")  
+ 
 
       //create xAxis  
       let xAxis=d3.axisBottom(xScale);
@@ -2320,7 +2342,11 @@
           .attr("y","50")
               .text("2002")
               .attr("fill","green")
+              .attr("opacity","0.7")
               .attr("font-size","36")
+
+
+
       svg1.append("g")
           .attr("class","legend1")
           .attr("transform", "translate(0," + h + ")")
@@ -2329,6 +2355,7 @@
           .attr("y","50")
               .text("2012")
               .attr("fill","blue")
+              .attr("opacity","0.7")
               .attr("font-size","36") 
 
 
@@ -2407,6 +2434,16 @@
               .attr("width", function (d,i){ return xScale(d.meurtres)})
               .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
               .attr("fill","blue")
+              .attr("opacity","0.8")
+              .on("mouseover",function(){
+                d3.select(this)
+                  .attr("opacity","1");
+                
+              })
+              .on("mouseleave", function(){
+                d3.select(this)
+                .attr("opacity","0.8");
+              })
 
       //Create rectangles for year 2010
       svg1.selectAll(".rect2010")
@@ -2419,6 +2456,16 @@
               .attr("width", function (d,i){ return xScale(d.meurtres)})
               .attr("height", ((yScale.bandwidth()-barPadding)/2)-0) 
               .attr("fill", "green")
+              .attr("opacity","0.8")
+              .on("mouseover",function(){
+                d3.select(this)
+                  .attr("opacity","1");
+                
+              })
+              .on("mouseleave", function(){
+                d3.select(this)
+                .attr("opacity","0.8");
+              })
 
       //create xAxis  
       let xAxis=d3.axisBottom(xScale);
@@ -2427,6 +2474,21 @@
             .attr("class", "axis x")
             .attr("transform", "translate(0," + h + ")")
           .call(xAxis)
+          .append("text")
+          .attr("x","200")
+          .attr("y","50")
+              .text("2007-2009")
+              .attr("fill","green")
+              .attr("font-size","36")
+      svg1.append("g")
+          .attr("class","legend1")
+          .attr("transform", "translate(0," + h + ")")
+          .append("text")
+          .attr("x","300")
+          .attr("y","50")
+              .text("2010-2012")
+              .attr("fill","blue")
+              .attr("font-size","36") 
 
       //create Y axis
       let yAxis=d3.axisLeft(yScale)

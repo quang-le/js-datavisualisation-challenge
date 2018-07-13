@@ -67,5 +67,8 @@ X. Log
 - 9:00-13:30: unable to do anything good. Too much stress to be able to think properly
 - 14:00: after a big break and letting go of the fact that I won't be able to complete the challeng on time, Is tart working again
 - 15:00: with the help of Claudiu, I manage to have a bare bones AJAX graph working.
+- 16:00: added legend for graphs 1 and 2. tried to make them clickable to hide selected countries, but the modification of the y-axis and the selection of the 2 corresponding bars was to hard to figure out in the hour I have left.µ
+- 16:00: changed the the base opacity to 0.8 for the bars, and put it on 1 on mouseover. Not pretty, but it meets the rquirement of intercativity. Now to gitHub pages!
+
 
 
