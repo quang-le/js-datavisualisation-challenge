@@ -2161,7 +2161,7 @@
 
     <!--END PAGE-->
   </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="./javascript-challenge-solo/challenge-js-files/assets/jquery/jquery-3.3.1.min.js"></script>
   <!--Add Dimple/D3-->
   <script src="./javascript-challenge-solo/challenge-js-files/assets/d3/d3.js"></script>
   <script src="./javascript-challenge-solo/challenge-js-files/assets/dimple/dimple.v2.3.0.js"></script>
@@ -2297,8 +2297,7 @@
               .attr("opacity","0.8")
               .on("mouseover",function(){
                 d3.select(this)
-                  .attr("opacity","1");
-                
+                  .attr("opacity","1");               
               })
               .on("mouseleave", function(){
                 d3.select(this)
@@ -2326,9 +2325,6 @@
                 d3.select(this)
                 .attr("opacity","0.8");
               })
-
-
- 
 
       //create xAxis  
       let xAxis=d3.axisBottom(xScale);

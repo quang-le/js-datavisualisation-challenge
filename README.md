@@ -23,16 +23,17 @@ Before the end of the week:
 * Code the AJAX request, with minimum formatting - Done 09/07/2018, 11:00. Server problem pending coach's side.
 * Find place in the DOM to insert the graphs - OK 09/07/2018, 09:30 (during review)
 * If possible at this stage, make basic DOM insertion - OK 09/07/2018, 11:50: inserted text. 
-* Choose between Dimple and D3 
-* Learn to use the library
-* Create branch for low-tier result
-* Implement low-tier result
-* If time allows it: repeat with high-tier result.
+* Choose between Dimple and D3 09/07: dimple, as from 10/07: d3
+* Learn to use the library - still ongoing on 13/07
+* Create branch for low-tier result N/A
+* Implement low-tier result - 13/07
+* If time allows it: repeat with high-tier result. - That's cute!
 
 
 3. Determine 2 tiers of expected results
+I did, but it was useless, as I wa simmediately limited by the libraries and the skill I'd be able to develop within the 5 days.
 
-X. Log 
+4. Log 
 09/07/2018: 
 - create AJAX request: html error 0. Request blocked server side. Leave it a that for now. The script seems to work properly though. Error identification process: console logged the request lauching, then an error message, then the other steps of the request (reached state 4, then failed then logged html error 0)
 - 14:00: put the page on github page as the console logged many errors saying http or https protocol was required. Moving the stable version of the project to the dev branch.
@@ -69,6 +70,9 @@ X. Log
 - 15:00: with the help of Claudiu, I manage to have a bare bones AJAX graph working.
 - 16:00: added legend for graphs 1 and 2. tried to make them clickable to hide selected countries, but the modification of the y-axis and the selection of the 2 corresponding bars was to hard to figure out in the hour I have left.µ
 - 16:00: changed the the base opacity to 0.8 for the bars, and put it on 1 on mouseover. Not pretty, but it meets the rquirement of intercativity. Now to gitHub pages!
+- 16:30: deployed on GitHub pages and on jschallenge.quangson.ninja
+- note to self = xScale.domain([d3min(ajaxData,function(){return Math.ceil(d.x)})])
+
 
 
 
