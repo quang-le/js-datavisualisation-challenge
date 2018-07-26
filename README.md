@@ -19,15 +19,15 @@ Before the end of the week:
     [Full instructions in French](https://github.com/becodeorg/lovelace-2/tree/master/Projects/javascript-challenge-solo)
 
 2. Planning
-* Determine benchmark for either task (minimum to achieve and best case result) - OK 09/07/2018, 10:47
-* Code the AJAX request, with minimum formatting - Done 09/07/2018, 11:00. Server problem pending coach's side.
-* Find place in the DOM to insert the graphs - OK 09/07/2018, 09:30 (during review)
+* Determine benchmark for either task (minimum to achieve and best case result) - *OK 09/07/2018, 10:47*
+* Code the AJAX request, with minimum formatting - *Done 09/07/2018, 11:00. Server problem pending coach's side.*
+* Find place in the DOM to insert the graphs - *OK 09/07/2018, 09:30 (during review)*
 * If possible at this stage, make basic DOM insertion - OK 09/07/2018, 11:50: inserted text. 
-* Choose between Dimple and D3 09/07: dimple, as from 10/07: d3
-* Learn to use the library - still ongoing on 13/07
-* Create branch for low-tier result N/A
-* Implement low-tier result - 13/07
-* If time allows it: repeat with high-tier result. - That's cute!
+* Choose between Dimple and D3 09/07: *dimple, as from 10/07: d3*
+* Learn to use the library - *still ongoing on 13/07*
+* Create branch for low-tier result *N/A*
+* Implement low-tier result - *13/07*
+* If time allows it: repeat with high-tier result. - *No time*
 
 
 3. Determine 2 tiers of expected results
